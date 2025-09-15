@@ -1,9 +1,12 @@
-// components/CreateNew.tsx
 "use client";
 
 import { memo, useState } from "react";
+import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 
 const CreateNew = () => {
+  const session = useSession();
+  const supabase = useSupabaseClient();
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [timeOfDay, setTimeOfDay] = useState("");
@@ -12,8 +15,19 @@ const CreateNew = () => {
   const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  if (session === undefined) return <p>Loading...</p>;
+  if (!session?.user)
+    return (
+      <div className="max-w-md mx-auto mt-12 p-6 bg-yellow-50 rounded-lg shadow-lg text-center">
+        <p className="text-yellow-800 font-semibold">
+          User not logged in. Please log in to create a block.
+        </p>
+      </div>
+    );
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     setLoading(true);
     setSuccess(null);
     setError(null);
@@ -22,7 +36,13 @@ const CreateNew = () => {
       const res = await fetch("/api/blocks", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title, description, timeOfDay, customMessage }),
+        body: JSON.stringify({
+          title,
+          description,
+          timeOfDay,
+          customMessage,
+          userId: session.user.id,
+        }),
       });
 
       if (!res.ok) throw new Error("Failed to create block");
@@ -57,7 +77,6 @@ const CreateNew = () => {
           onChange={(e) => setTitle(e.target.value)}
           className="p-3 border rounded-md border-gray-400 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-400"
         />
-
         <textarea
           placeholder="Description"
           value={description}
@@ -65,16 +84,13 @@ const CreateNew = () => {
           onChange={(e) => setDescription(e.target.value)}
           className="p-3 border rounded-md border-gray-400 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-400 resize-none h-20"
         />
-
         <input
           type="time"
-          placeholder="Time of Day"
           value={timeOfDay}
           required
           onChange={(e) => setTimeOfDay(e.target.value)}
           className="p-3 border rounded-md border-gray-400 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-400"
         />
-
         <input
           type="text"
           placeholder="Custom Message"
@@ -83,7 +99,6 @@ const CreateNew = () => {
           onChange={(e) => setCustomMessage(e.target.value)}
           className="p-3 border rounded-md border-gray-400 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-400"
         />
-
         <button
           type="submit"
           disabled={loading}
