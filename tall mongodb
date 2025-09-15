@@ -1,0 +1,11 @@
+[33mcommit 81a04ae116b8ea36ae661fc5895266149a7106cb[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Kartikey Singh <kartikeysingh448@gmail.com>
+Date:   Mon Sep 15 15:09:12 2025 +0530
+
+    created the hero page , and initialized the new route for the creation of reminder page
+
+[33mcommit 9f5888e107ab08666666c2020b680ba40917d644[m
+Author: Kartikey Singh <kartikeysingh448@gmail.com>
+Date:   Mon Sep 15 14:55:25 2025 +0530
+
+    Initial commit: connected project to Supabase and implemented auth and navbar
