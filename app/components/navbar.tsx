@@ -57,6 +57,12 @@ export default function Navbar() {
           </div>
         ) : (
           <div className="flex items-center space-x-4">
+            <Link
+              href="/blocks"
+              className="px-4 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600"
+            >
+              My Blocks
+            </Link>
             <span className="text-gray-700 text-sm">{user.email}</span>
             <button
               onClick={handleLogout}
