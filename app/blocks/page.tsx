@@ -32,8 +32,8 @@ export default function BlocksPage() {
         // Show only current user's blocks for clarity/privacy
         const mine = data.filter((b) => b.userId === session.user!.id);
         setBlocks(mine);
-      } catch (e: any) {
-        setError(e.message || "Something went wrong");
+      } catch (e: unknown) {
+        setError(e instanceof Error ? e.message : "Something went wrong");
       } finally {
         setLoading(false);
       }
@@ -78,4 +78,3 @@ export default function BlocksPage() {
     </div>
   );
 }
-

@@ -9,7 +9,6 @@ type CachedMongoose = {
 
 declare global {
   // Add cached mongoose to globalThis to avoid multiple connections in dev
-  // eslint-disable-next-line no-var
   var mongoose: CachedMongoose | undefined;
 }
 
@@ -21,7 +20,7 @@ if (!MONGODB_URI) {
 }
 
 // ---------------- CACHE ----------------
-let cached: CachedMongoose = global.mongoose ?? { conn: null, promise: null };
+const cached: CachedMongoose = global.mongoose ?? { conn: null, promise: null };
 global.mongoose = cached;
 
 // ---------------- CONNECT FUNCTION ----------------

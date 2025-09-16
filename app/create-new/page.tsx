@@ -1,11 +1,10 @@
 "use client";
 
 import { memo, useState } from "react";
-import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useSession } from "@supabase/auth-helpers-react";
 
 const CreateNew = () => {
   const session = useSession();
-  const supabase = useSupabaseClient();
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -54,9 +53,9 @@ const CreateNew = () => {
       setTimeOfDay("");
       setCustomMessage("");
       console.log("Created Block:", data);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
-      setError(err.message || "Something went wrong");
+      setError(err instanceof Error ? err.message : "Something went wrong");
     } finally {
       setLoading(false);
     }

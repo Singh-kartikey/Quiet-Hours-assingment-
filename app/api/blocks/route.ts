@@ -2,7 +2,7 @@
 import { dbConnect } from "../../lib/mongodb";
 import Block from "../../models/block";
 
-export async function GET(req: Request) {
+export async function GET() {
   try {
     await dbConnect();
 
